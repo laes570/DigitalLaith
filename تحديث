@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الليث للخدمات الرقمية</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Tajawal', sans-serif; }
+    .animated-logo {
+      animation: slideInDown 1s ease forwards;
+      font-weight: 900;
+      font-size: 3rem;
+      color: #1e40af;
+      text-align: center;
+      margin: 20px 0;
+    }
+    @keyframes slideInDown {
+      0% { transform: translateY(-100%); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 text-gray-900"><!-- شعار الموقع --><header>
+  <h1 class="animated-logo">الليث للخدمات الرقمية</h1>
+</header><!-- سعر صرف الدولار --><section class="text-center my-4">
+  <div class="inline-block bg-blue-600 text-white py-2 px-4 rounded shadow-lg">
+    سعر صرف الدولار مقابل الليرة السورية:
+    <span id="usd-rate" class="font-bold text-xl">جاري التحميل...</span> ل.س
+  </div>
+</section><!-- بوابات الخدمات --><section id="services" class="container mx-auto px-4 py-12">
+  <h2 class="text-3xl font-bold text-center mb-8">بوابات الخدمات</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="bg-white p-6 rounded shadow hover:shadow-xl transition cursor-pointer" onclick="showSection('crypto')">
+      <h3 class="text-xl font-semibold mb-2">💱 العملات الرقمية</h3>
+      <p>BTC, USDT, TRX, تحويل، شحن وسحب بالدولار والليرة.</p>
+    </div>
+    <div class="bg-white p-6 rounded shadow hover:shadow-xl transition cursor-pointer" onclick="showSection('iptv')">
+      <h3 class="text-xl font-semibold mb-2">📡 اشتراك التلفزيون</h3>
+      <p>مواقع وباقات IPTV مع الأسعار والمدة.</p>
+    </div>
+    <div class="bg-white p-6 rounded shadow hover:shadow-xl transition cursor-pointer" onclick="showSection('games')">
+      <h3 class="text-xl font-semibold mb-2">🎮 الألعاب</h3>
+      <p>شحن PUBG, Free Fire, COD والمزيد بالليرة والدولار.</p>
+    </div>
+    <div class="bg-white p-6 rounded shadow hover:shadow-xl transition cursor-pointer" onclick="showSection('software')">
+      <h3 class="text-xl font-semibold mb-2">💻 البرامج</h3>
+      <p>كل البرامج + روابط iThency و1xBet وiChancy.</p>
+    </div>
+  </div>
+</section><!-- تفاصيل الأقسام --><section id="details" class="container mx-auto px-4 mt-10"></section><!-- نموذج الطلب --><section id="order-form" class="py-12 container mx-auto max-w-lg">
+  <h3 class="text-2xl font-bold text-center mb-6">📝 قدم طلبك الآن</h3>
+  <form action="https://t.me/DigitalLaith_bot" target="_blank" class="bg-white p-6 rounded shadow-lg">
+    <label class="block mb-2 font-semibold">📦 نوع الخدمة</label>
+    <select class="w-full p-2 mb-4 border rounded">
+      <option>أرقام مؤقتة</option>
+      <option>شحن ألعاب</option>
+      <option>IPTV</option>
+      <option>تحويل عملات</option>
+      <option>برامج</option>
+    </select>
+    <label class="block mb-2 font-semibold">📱 رقم التليجرام أو واتساب</label>
+    <input type="text" class="w-full p-2 mb-4 border rounded" required>
+    <label class="block mb-2 font-semibold">💵 طريقة الدفع</label>
+    <select class="w-full p-2 mb-4 border rounded">
+      <option>ليرة سورية</option>
+      <option>دولار أمريكي</option>
+    </select>
+    <label class="block mb-2 font-semibold">📝 ملاحظات إضافية</label>
+    <textarea class="w-full p-2 mb-4 border rounded" rows="4"></textarea>
+    <button type="submit" class="bg-blue-700 text-white w-full py-2 rounded hover:bg-blue-800">📨 إرسال الطلب عبر البوت</button>
+  </form>
+</section><!-- تواصل مباشر --><section id="contact" class="py-12 container mx-auto text-center">
+  <h3 class="text-2xl font-bold mb-6">📞 تواصل معنا</h3>
+  <a href="https://t.me/DigitalLaith_bot" target="_blank" class="bg-blue-700 text-white py-2 px-6 rounded shadow hover:bg-blue-800">🤖 بوت التليجرام</a>
+</section><!-- سكريبت التفاصيل + سعر الصرف --><script>
+async function fetchUSDSYPRate() {
+  try {
+    const res = await fetch('https://api.sp-today.com/api/v1/rates/USD-SYP');
+    const data = await res.json();
+    const rate = data?.data?.rate || 'N/A';
+    document.getElementById('usd-rate').textContent = rate.toLocaleString();
+  } catch {
+    document.getElementById('usd-rate').textContent = 'تعذر التحميل';
+  }
+}
+fetchUSDSYPRate();
+
+function showSection(section) {
+  const container = document.getElementById('details');
+  let html = '';
+  if(section === 'crypto') {
+    html = `<h3 class='text-2xl font-bold mb-4'>💱 العملات الرقمية</h3>
+    <ul class='list-disc list-inside space-y-2'>
+      <li><b>BTC:</b> تحويل وسحب.</li>
+      <li><b>USDT:</b> شحن وسحب TRC20.</li>
+      <li><b>TRX:</b> تعاملات فورية.</li>
+      <li>الأسعار بالدولار والليرة.</li>
+    </ul>`;
+  } else if(section === 'iptv') {
+    html = `<h3 class='text-2xl font-bold mb-4'>📡 اشتراك التلفزيون</h3>
+    <ul class='list-disc list-inside space-y-2'>
+      <li>Xtream IPTV</li>
+      <li>M3U Playlists</li>
+      <li>Smart IPTV</li>
+      <li>قنوات رياضية وأفلام.</li>
+    </ul>`;
+  } else if(section === 'games') {
+    html = `<h3 class='text-2xl font-bold mb-4'>🎮 الألعاب</h3>
+    <ul class='list-disc list-inside space-y-2'>
+      <li>شحن PUBG – Free Fire – COD – Fortnite – Valorant</li>
+      <li>الدفع بالدولار أو الليرة</li>
+    </ul>`;
+  } else if(section === 'software') {
+    html = `<h3 class='text-2xl font-bold mb-4'>💻 البرامج</h3>
+    <ul class='list-disc list-inside space-y-2'>
+      <li>Adobe Creative Cloud</li>
+      <li>Microsoft Office</li>
+      <li>برامج VPN</li>
+      <li>أدوات تفعيل</li>
+      <li><a href='https://ithency.com' target='_blank' class='text-blue-600 underline'>iThency</a></li>
+      <li><a href='https://1xbet.com' target='_blank' class='text-blue-600 underline'>1xBet</a></li>
+      <li><a href='https://ichancy.com' target='_blank' class='text-blue-600 underline'>iChancy</a></li>
+    </ul>`;
+  }
+  container.innerHTML = html;
+  container.scrollIntoView({ behavior: 'smooth' });
+}
+</script></body>
+</html>
